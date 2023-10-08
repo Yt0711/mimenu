@@ -1,3 +1,0 @@
-class ExtrasGroup {}
-
-class ExtrasOption {}

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:home_restaurant/homepage.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:home_restaurant/pages/home/homepage.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: const HomePage(),
       theme: ThemeData(primaryColor: Colors.deepPurple),
     );
   }

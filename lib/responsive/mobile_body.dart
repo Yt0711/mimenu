@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:home_restaurant/components/main_appbar.dart';
+import 'package:home_restaurant/pages/Inicio/inicio_mobile.dart';
 
-import '../Inicio/inicio_desktop.dart';
+import '../pages/Ajustes/settings.dart';
+import '../pages/Menu/menu.dart';
 
 class MyMobileBody extends StatefulWidget {
   const MyMobileBody({Key? key}) : super(key: key);
@@ -10,27 +13,37 @@ class MyMobileBody extends StatefulWidget {
 }
 
 class _MyMobileBodyState extends State<MyMobileBody> {
-  final TextEditingController _searchController = TextEditingController();
+  // final TextEditingController _searchController = TextEditingController();
+
+  List<Widget> views = [
+    const Center(child: InicioMobile()),
+    const Center(child: MenuRestaurant()),
+    const Center(
+        child: Text(
+            'lista de pedidos pagos y sus formas de pago, separar los dias')),
+    Center(child: AjustesPage()),
+  ];
   int currentPageIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: TextField(
-          controller: _searchController,
-          style: const TextStyle(color: Colors.white),
-          cursorColor: Colors.white,
-          decoration: const InputDecoration(
-            hintText: 'Buscar...',
-            hintStyle: TextStyle(color: Colors.white54),
-            border: InputBorder.none,
-          ),
-          onChanged: (value) {
-            // Perform search functionality here
-          },
-        ),
-      ),
+      appBar: const MainAppBar(),
+      // appBar: AppBar(
+      //   title: TextField(
+      //     controller: _searchController,
+      //     style: const TextStyle(color: Colors.white),
+      //     cursorColor: Colors.white,
+      //     decoration: const InputDecoration(
+      //       hintText: 'Buscar...',
+      //       hintStyle: TextStyle(color: Colors.white54),
+      //       border: InputBorder.none,
+      //     ),
+      //     onChanged: (value) {
+      //       // Perform search functionality here
+      //     },
+      //   ),
+      // ),
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) {
           setState(() {
@@ -57,26 +70,7 @@ class _MyMobileBodyState extends State<MyMobileBody> {
           ),
         ],
       ),
-      body: <Widget>[
-        Container(
-          child: Center(child: InicioDesktop()),
-        ),
-        Container(
-          child: Center(
-            child: Text('Menu_Mobile'),
-          ),
-        ),
-        Container(
-          child: Center(
-            child: Text('Pedidos_Mobile'),
-          ),
-        ),
-        Container(
-          child: Center(
-            child: Text('Ajuste_Mobile'),
-          ),
-        ),
-      ][currentPageIndex],
+      body: views.elementAt(currentPageIndex),
     );
   }
 }

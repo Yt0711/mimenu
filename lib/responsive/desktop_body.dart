@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:home_restaurant/Ajustes/settings.dart';
+import 'package:home_restaurant/components/main_appbar.dart';
+import 'package:home_restaurant/pages/Ajustes/settings.dart';
 
-import 'package:home_restaurant/Inicio/inicio_desktop.dart';
-import 'package:home_restaurant/Menu/menu.dart';
+import 'package:home_restaurant/pages/Inicio/inicio_desktop.dart';
+import 'package:home_restaurant/pages/Menu/menu.dart';
 import 'package:side_navigation/side_navigation.dart';
 
 class MyDesktopBody extends StatefulWidget {
@@ -14,15 +15,15 @@ class MyDesktopBody extends StatefulWidget {
 
 class _MyDesktopBodyState extends State<MyDesktopBody> {
   List<Widget> views = [
-    Center(child: InicioDesktop()),
-    Center(child: MenuRestaurant()),
-    Center(
+    const Center(child: InicioDesktop()),
+    const Center(child: MenuRestaurant()),
+    const Center(
         child: Text(
             'lista de pedidos pagos y sus formas de pago, separar los dias')),
     Center(child: AjustesPage()),
   ];
   int selectedIndex = 0;
-  final TextEditingController _searchController = TextEditingController();
+  // final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -32,42 +33,44 @@ class _MyDesktopBodyState extends State<MyDesktopBody> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          leading: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: _searchController,
-              style: const TextStyle(color: Colors.white),
-              cursorColor: Colors.white,
-              decoration: const InputDecoration(
-                hintText: 'Buscar Platos...',
-                hintStyle: TextStyle(color: Colors.white54),
-                border: InputBorder.none,
-              ),
-              onChanged: (value) {
-                // Perform search functionality here
-              },
-            ),
-          ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                onPressed: () {},
-                child: Text("Añadir Mesas"),
-                style: ButtonStyle(
-                  overlayColor: MaterialStateProperty.resolveWith<Color?>(
-                    (Set<MaterialState> states) {
-                      if (states.contains(MaterialState.pressed))
-                        return Colors.green; //<-- SEE HERE
-                      return null; // Defer to the widget's default.
-                    },
-                  ),
-                ),
-              ),
-            )
-          ],
-          title: Text("NOMBRE RESTAURANTE")),
+      appBar: const MainAppBar(),
+      // appBar: AppBar(
+      //     leading: Padding(
+      //       padding: const EdgeInsets.all(8.0),
+      //       child: TextField(
+      //         controller: _searchController,
+      //         style: const TextStyle(color: Colors.white),
+      //         cursorColor: Colors.white,
+      //         decoration: const InputDecoration(
+      //           hintText: 'Buscar Platos...',
+      //           hintStyle: TextStyle(color: Colors.white54),
+      //           border: InputBorder.none,
+      //         ),
+      //         onChanged: (value) {
+      //           // Perform search functionality here
+      //         },
+      //       ),
+      //     ),
+      //     actions: [
+      //       Padding(
+      //         padding: const EdgeInsets.all(8.0),
+      //         child: ElevatedButton(
+      //           onPressed: () {},
+      //           style: ButtonStyle(
+      //             overlayColor: MaterialStateProperty.resolveWith<Color?>(
+      //               (Set<MaterialState> states) {
+      //                 if (states.contains(MaterialState.pressed)) {
+      //                   return Colors.green; //<-- SEE HERE
+      //                 }
+      //                 return null; // Defer to the widget's default.
+      //               },
+      //             ),
+      //           ),
+      //           child: const Text("Añadir Mesas"),
+      //         ),
+      //       )
+      //     ],
+      //     title: const Text("NOMBRE RESTAURANTE")),
       body: Row(children: [
         SideNavigationBar(
             selectedIndex: selectedIndex,
