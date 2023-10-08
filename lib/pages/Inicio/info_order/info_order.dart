@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:home_restaurant/pages/Inicio/bloc/table_bloc.dart';
 
 class InfoOrder extends StatelessWidget {
   InfoOrder({super.key});
@@ -21,7 +23,26 @@ class InfoOrder extends StatelessWidget {
             ),
           ),
         ),
-        body: const Text(
-            "AQUI APARECE LOS PEDIDOS + IMPORTE CUANDO PULSA LA MESA"));
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: BlocBuilder<TableBloc, TableState>(
+            builder: (context, state) {
+              if (state is TableLoading) {
+                return const CircularProgressIndicator();
+              }
+              if (state is TableLoaded) {
+                return Column(
+                  children: [
+                    Text(state.orderTable.reference.id),
+                    Text('aa'),
+                  ],
+                );
+              } else if (state is TableError) {
+                return Text(state.error);
+              }
+              return Container();
+            },
+          ),
+        ));
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:home_restaurant/pages/Inicio/bloc/table_bloc.dart';
 
 import '../../../src/models/table.dart';
 
@@ -20,7 +22,11 @@ class RestaurantTablePage extends StatelessWidget {
               ?.map((table) => Card(
                     child: InkWell(
                       onTap: () {
-                        //cuando pulsa aparece info_order correspondiente
+                        if (table.id != null) {
+                          context
+                              .read<TableBloc>()
+                              .add(TableLoadData(table.id!));
+                        }
                       },
                       child: Center(
                         child: Column(

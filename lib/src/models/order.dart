@@ -44,24 +44,31 @@ class Order {
   });
 
   factory Order.fromSnapshot(DocumentSnapshot json) {
-    final data = json.data() as Map<String, dynamic>;
-    return Order(
-      reference: json.reference,
-      id: data['id'],
-      restaurantId: data['restaurantId'],
-      tableId: data['tableId'],
-      customerId: data['customerId'],
-      items: data['items'] != null
-          ? List<OrderItem>.from(data['items'].map((x) => OrderItem.fromMap(x)))
-          : null,
-      total: data['total'],
-      notes: data['notes'],
-      status: OrderStatus.fromdata(data['status']),
-      created: data['created'].toDate(),
-      payments: data['payments'] != null
-          ? List<Payment>.from(data['payments'].map((x) => Payment.fromMap(x)))
-          : null,
-    );
+    try {
+      final data = json.data() as Map<String, dynamic>;
+      return Order(
+        reference: json.reference,
+        id: data['id'],
+        restaurantId: data['restaurantId'],
+        tableId: data['tableId'],
+        customerId: data['customerId'],
+        items: data['items'] != null
+            ? List<OrderItem>.from(
+                data['items'].map((x) => OrderItem.fromMap(x)))
+            : null,
+        total: data['total'],
+        notes: data['notes'],
+        status: OrderStatus.fromdata(data['status']),
+        created: data['created'].toDate(),
+        payments: data['payments'] != null
+            ? List<Payment>.from(
+                data['payments'].map((x) => Payment.fromMap(x)))
+            : null,
+      );
+    } catch (e) {
+      print('Error parsing Order: $e');
+      rethrow;
+    }
   }
 
   Map<String, dynamic> toMap() {
@@ -128,15 +135,20 @@ class OrderItem {
   });
 
   factory OrderItem.fromMap(Map<String, dynamic> json) {
-    return OrderItem(
-      item: Item.fromMap(json['item']),
-      quantity: json['quantity'],
-      extras: json['extras'] != null
-          ? Map<String, ExtraOption>.from(json['extras']
-              .map((key, value) => MapEntry(key, ExtraOption.fromMap(value))))
-          : null,
-      price: json['price'],
-    );
+    try {
+      return OrderItem(
+        item: Item.fromMap(json['item']),
+        quantity: json['quantity'],
+        extras: json['extras'] != null
+            ? Map<String, ExtraOption>.from(json['extras']
+                .map((key, value) => MapEntry(key, ExtraOption.fromMap(value))))
+            : null,
+        price: json['price'],
+      );
+    } catch (e) {
+      print('Error parsing OrderItem: $e');
+      rethrow;
+    }
   }
 
   Map<String, dynamic> toMap() {
@@ -181,13 +193,18 @@ class SimplifiedOrder {
   });
 
   factory SimplifiedOrder.fromMap(Map<String, dynamic> json) {
-    return SimplifiedOrder(
-      items:
-          List<OrderItem>.from(json['items'].map((x) => OrderItem.fromMap(x))),
-      notes: json['notes'],
-      status: OrderStatus.fromdata(json['status']),
-      created: json['created'].toDate(),
-    );
+    try {
+      return SimplifiedOrder(
+        items: List<OrderItem>.from(
+            json['items'].map((x) => OrderItem.fromMap(x))),
+        notes: json['notes'],
+        status: OrderStatus.fromdata(json['status']),
+        created: json['created'].toDate(),
+      );
+    } catch (e) {
+      print('Error parsing Simplified Order: $e');
+      rethrow;
+    }
   }
 
   Map<String, dynamic> toMap() {
@@ -230,17 +247,24 @@ class OrderTable {
   });
 
   factory OrderTable.fromSnapshot(DocumentSnapshot json) {
-    final data = json.data() as Map<String, dynamic>;
-    return OrderTable(
-      reference: json.reference,
-      cart: List<OrderItem>.from(data['cart'].map((x) => OrderItem.fromMap(x))),
-      guests: data['guests'],
-      orders: List<SimplifiedOrder>.from(
-          data['orders'].map((x) => SimplifiedOrder.fromMap(x))),
-      finalOrder: data['finalOrder'] != null
-          ? Order.fromSnapshot(data['finalOrder'])
-          : null,
-    );
+    try {
+      final data = json.data() as Map<String, dynamic>;
+
+      return OrderTable(
+        reference: json.reference,
+        cart:
+            List<OrderItem>.from(data['cart'].map((x) => OrderItem.fromMap(x))),
+        guests: data['guests'],
+        orders: List<SimplifiedOrder>.from(
+            data['orders'].map((x) => SimplifiedOrder.fromMap(x))),
+        finalOrder: data['finalOrder'] != null
+            ? Order.fromSnapshot(data['finalOrder'])
+            : null,
+      );
+    } catch (e) {
+      print('Error parsing OrderTable: $e');
+      rethrow;
+    }
   }
 
   Map<String, dynamic> toMap() {

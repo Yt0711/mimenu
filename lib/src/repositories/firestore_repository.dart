@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:home_restaurant/src/models/manager.dart';
+import 'package:home_restaurant/src/models/order.dart';
 import 'package:home_restaurant/src/models/restaurant.dart';
 
 abstract class DatabaseRepository {
   Future<Manager> getManager(String id);
   Future<Restaurant> getRestaurant(String id);
   Future<List<Restaurant>> getRestaurantByManager(String id);
+  Future<OrderTable> getOrderTable(String restaurantID, String tableID);
 }
 
 class FireStoreRepository implements DatabaseRepository {
@@ -34,5 +36,17 @@ class FireStoreRepository implements DatabaseRepository {
       final data = value.docs;
       return data.map((e) => Restaurant.fromSnapshot(e)).toList();
     });
+  }
+
+  @override
+  Future<OrderTable> getOrderTable(String restaurantID, String tableID) async {
+    print(restaurantID);
+    final CollectionReference ref = instance
+        .collection('restaurants')
+        .doc(restaurantID)
+        .collection('tables');
+    final data = await ref.doc(tableID).get();
+
+    return OrderTable.fromSnapshot(data);
   }
 }

@@ -105,6 +105,7 @@ class MenuRestaurant extends StatelessWidget {
           title: Text(item.name),
           subtitle: Text(item.description ?? ''),
           trailing: Text(currencyFormat(item.price)),
+          onTap: () => {print(item.name)},
         );
       },
     );

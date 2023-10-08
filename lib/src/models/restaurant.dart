@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:equatable/equatable.dart';
 import 'package:home_restaurant/src/models/media.dart';
 import 'package:home_restaurant/src/models/table.dart';
 import 'category.dart';
@@ -28,29 +29,29 @@ class Language {
   }
 }
 
-class Restaurant {
+class Restaurant extends Equatable {
   final DocumentReference? reference;
-  String? id;
-  String name;
-  String? address;
-  String? logo;
-  List<String>? tags;
-  String? description;
-  String? phone;
-  String? email;
-  String? web;
-  DateTime? created;
-  String? observations;
-  List<Category>? categories;
-  List<Item>? items;
-  List<RestaurantTable>? tables;
-  List<Media>? images;
-  List<Language>? availableLanguages;
-  Map<String, RestaurantTranslation>? translations;
-  List<String>? managers;
-  List<Zone>? zones;
+  final String? id;
+  final String name;
+  final String? address;
+  final String? logo;
+  final List<String>? tags;
+  final String? description;
+  final String? phone;
+  final String? email;
+  final String? web;
+  final DateTime? created;
+  final String? observations;
+  final List<Category>? categories;
+  final List<Item>? items;
+  final List<RestaurantTable>? tables;
+  final List<Media>? images;
+  final List<Language>? availableLanguages;
+  final Map<String, RestaurantTranslation>? translations;
+  final List<String>? managers;
+  final List<Zone>? zones;
 
-  Restaurant({
+  const Restaurant({
     this.reference,
     this.id,
     required this.name,
@@ -162,6 +163,9 @@ class Restaurant {
   Future<void>? save() {
     return reference?.set(toMap(), SetOptions(merge: true));
   }
+
+  @override
+  List<Object?> get props => [reference];
 }
 
 class RestaurantTranslation {
